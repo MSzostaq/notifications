@@ -37,7 +37,7 @@ function App() {
       type: v ? "ok" : "error",
       title: `Toggle switched ${v ? "on" : "off"}`,
       message: `This is ${v ? "good" : "bad"}.`,
-      lifespan: 1000,
+      lifespan: 2000,
       onClose: onNotificationClose,
     };
     setNotifications([...notifications, notification]);
@@ -48,7 +48,7 @@ function App() {
     addNotification(newValue);
   }
 
-  useInterval(() => addNotification(Math.random() < 0.5), 200);
+  // useInterval(() => addNotification(Math.random() < 0.5), 200);
 
   return (
     <div className="App">
