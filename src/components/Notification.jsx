@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import useTimeout from "use-timeout";
 import Icon from "./Icon";
 
 const StyledNotification = styled(motion.li)`
@@ -37,7 +38,10 @@ const CloseButton = styled(Icon)`
 `;
 
 const Notification = ({ className, notification, ...rest }) => {
-  const { id, message, title, type, onClose } = notification;
+  const { id, message, title, type, lifespan, onClose } = notification;
+
+  useTimeout(() => onClose(id), lifespan);
+
   return (
     <StyledNotification className={className} type={type} {...rest}>
       <Header>

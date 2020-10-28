@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
+import useInterval from "./hooks/useInterval";
 import Notifications from "./components/Notifications";
 import Toggle from "./components/Toggle";
 
@@ -36,6 +37,7 @@ function App() {
       type: v ? "ok" : "error",
       title: `Toggle switched ${v ? "on" : "off"}`,
       message: `This is ${v ? "good" : "bad"}.`,
+      lifespan: 1000,
       onClose: onNotificationClose,
     };
     setNotifications([...notifications, notification]);
@@ -45,6 +47,9 @@ function App() {
     setValue(newValue);
     addNotification(newValue);
   }
+
+  useInterval(() => addNotification(Math.random() < 0.5), 200);
+
   return (
     <div className="App">
       <Form>
