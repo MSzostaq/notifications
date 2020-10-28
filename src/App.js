@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 import Notifications from "./components/Notifications";
 import Toggle from "./components/Toggle";
@@ -18,24 +19,31 @@ const AppNotifications = styled(Notifications)`
 `;
 
 function App() {
-  const [notifications] = useState([
-    {
-      id: "1",
-      type: "ok",
-      title: "Toggle switched on",
-      message: "This is a message.",
-    },
-    {
-      id: "2",
-      type: "error",
-      title: "Toggle switched off",
-      message: "This is not a message.",
-    },
-  ]);
-  const [value, setValue] = useState(true);
+  const [notifications, setNotifications] = useState([]);
+  const [value, setValue] = useState(false);
+
+  function removeNotification(id) {
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  }
+
+  function onNotificationClose(id) {
+    removeNotification(id);
+  }
+
+  function addNotification(v) {
+    const notification = {
+      id: uuidv4(),
+      type: v ? "ok" : "error",
+      title: `Toggle switched ${v ? "on" : "off"}`,
+      message: `This is ${v ? "good" : "bad"}.`,
+      onClose: onNotificationClose,
+    };
+    setNotifications([...notifications, notification]);
+  }
 
   function onValueChange(newValue) {
     setValue(newValue);
+    addNotification(newValue);
   }
   return (
     <div className="App">
